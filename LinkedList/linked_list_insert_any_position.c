@@ -8,47 +8,61 @@ typedef struct Node
 
 } Node;
 
-Node *head;
-
-void Print()
+void Print(Node *head)
 {
-    Node *temp = head;
-    while (temp != NULL)
+    printf("Linked list : ");
+    while (head != NULL)
     {
-        printf("%d", temp->data);
-        temp = temp->next;
+        printf("%d ", head->data);
+        head = head->next;
     }
     printf("\n");
 }
 
-void InsertAnyPosition(int data, int position)
+void InsertAnyPosition(Node **ptr_head, int data, int position, int *n)
 {
-    Node *temp1 = (Node *)malloc(sizeof(Node));
-    temp1->data = data;
-    temp1->next = NULL;
+    if (position > *n)
+    {
+        printf("error try again\n");
+        return;
+    }
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
 
     if (position == 0)
     {
-        temp1->next = head;
-        head = temp1;
+        newNode->next = *ptr_head;
+        *ptr_head = newNode;
+        *n += 1;
         return;
     }
 
-    Node *temp2 = head;
-    for (int i = 0; i < position - 1; i++)
+    Node *tamp = *ptr_head;
+    for (int i = 0; i < position - 1; i++) // loop until temp point to node before position
     {
-        temp2 = temp2->next;
+        tamp = tamp->next;
     }
-    temp1->next = temp2->next;
-    temp2->next = temp1;
+    newNode->next = tamp->next;
+    tamp->next = newNode;
+    *n += 1;
 }
 
 int main()
 {
-    head = NULL;             // Empty List
-    InsertAnyPosition(2, 0); // List : [2]
-    InsertAnyPosition(3, 1); // list : [2,3]
-    InsertAnyPosition(4, 0); // list : [4,2,3]
-    InsertAnyPosition(5, 1); // list : [4,5,2,3]
-    Print();
+    int n = 0;
+    Node *head;
+    head = NULL; // Empty List
+
+    int num, idx;
+    while (1)
+    {
+        printf("num : ");
+        scanf("%d", &num);
+        printf("idx : ");
+        scanf("%d", &idx);
+        InsertAnyPosition(&head, num, idx, &n);
+        Print(head);
+        printf("\ncount = %d\n", n);
+    }
 }
