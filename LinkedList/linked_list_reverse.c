@@ -9,9 +9,20 @@ typedef struct Node
 
 void LLreverse(Node **head)
 {
+
     Node *tempNow = *head;
     Node *tempNext = NULL;
     Node *tempPrev = NULL;
+    if (tempNow == NULL)
+    {
+        printf("empty LL no rev \n");
+        return;
+    }
+    if (tempNow->next == NULL)
+    {
+        printf("only 1 LL no rev \n");
+        return;
+    }
     while (1)
     {
         if (tempNow->next == NULL)
@@ -59,7 +70,7 @@ void LLappend(int x, int pos, Node **head, int *n)
 
 void LLdelete(int pos, Node **head, int *n)
 {
-    if (pos >= *n || n == 0)
+    if (pos >= *n)
     {
         printf("error try again !!! \n");
         return;
@@ -104,6 +115,7 @@ int main()
     head = NULL;
 
     int x, pos;
+    printf("start append\n");
     while (1)
     {
         printf("x : ");
@@ -119,11 +131,19 @@ int main()
         LLappend(x, pos, &head, &n);
         LLprint(head);
     }
+    printf("start swop\n");
     LLprint(head);
     LLreverse(&head);
     LLprint(head);
+    printf("end swop\n");
+    printf("start delete\n");
     while (1)
     {
+        if (n == 0)
+        {
+            printf("empty LL end\n");
+            break;
+        }
         printf("pos : ");
         scanf("%d", &pos);
         if (pos < 0)
